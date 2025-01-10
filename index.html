@@ -751,8 +751,8 @@
         let spinning = false;
         let gifts = [];
         let numberOfGifts = 0;
-        const backupHost = 'http://gift.somee.com/api/v1';
-        const primaryHost = 'https://joint-socially-pipefish.ngrok-free.app/api/v1'; // Thay bằng host backup thực tế của bạn
+        const primaryHost = 'http://gift.somee.com/api/v1';
+        const backupHost = 'https://joint-socially-pipefish.ngrok-free.app/api/v1'; // Thay bằng host backup thực tế của bạn
         let currentHost = primaryHost;
 
         // Sửa lại hàm fetchGifts để xử lý failover
