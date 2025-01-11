@@ -751,34 +751,39 @@
         let spinning = false;
         let gifts = [];
         let numberOfGifts = 0;
-        const primaryHost = 'http://gift.somee.com/api/v1';
-        const backupHost = 'https://joint-socially-pipefish.ngrok-free.app/api/v1'; // Thay bằng host backup thực tế của bạn
+        const primaryHost = 'https://joint-socially-pipefish.ngrok-free.app/api/v1';
+        const backupHost = 'http://gift.somee.com/api/v1'; // Thay bằng host backup thực tế của bạn
         let currentHost = primaryHost;
 
         // Sửa lại hàm fetchGifts để xử lý failover
         async function fetchGifts() {
-            const tryFetch = async (host) => {
-                try {
-                    const response = await fetch(`${host}/gift/list`);
-                    const result = await response.json();
-                    
-                    if (result.statusCode === 200) {
-                        gifts = result.data;
-                        numberOfGifts = gifts.length;
-                        console.log('Số phần tử từ API:', numberOfGifts);
-                        
-                        // Tạo style động cho các phần tử của vòng quay
-                        createWheelStyles(numberOfGifts);
-                        
-                        displayPrizes();
-                        return true;
-                    }
-                    return false;
-                } catch (error) {
-                    console.error(`Error fetching from ${host}:`, error);
-                    return false;
+        const tryFetch = async (host) => {
+            try {
+                const response = await fetch(`${host}/gift/list`, {
+                    headers: {
+                        "ngrok-skip-browser-warning": "true",
+                    },
+                });
+                const result = await response.json();
+
+                if (result.statusCode === 200) {
+                    gifts = result.data;
+                    numberOfGifts = gifts.length;
+                    console.log("Số phần tử từ API:", numberOfGifts);
+
+                    // Tạo style động cho các phần tử của vòng quay
+                    createWheelStyles(numberOfGifts);
+
+                    displayPrizes();
+                    return true;
                 }
-            };
+                return false;
+            } catch (error) {
+                console.error(`Error fetching from ${host}:`, error);
+                return false;
+            }
+        };
+
 
             // Thử với host chính trước
             if (await tryFetch(primaryHost)) {
