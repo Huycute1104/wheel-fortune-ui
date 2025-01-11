@@ -762,7 +762,7 @@
                 const response = await fetch(`${host}/gift/list`, {
                     headers: {
                         "ngrok-skip-browser-warning": "true",
-                        "Referrer-Policy": "strict-origin-when-cross-origin"
+                        "Access-Control-Allow-Origin": "*",
                     },
                 });
                 const result = await response.json();
